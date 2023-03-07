@@ -16,6 +16,11 @@ const clear = document.querySelector('#clear');
 const display = document.querySelector('#display')
 const button = document.querySelectorAll('button');
 let currentNum = 0;
+const expression = {
+    op: null,
+    numA: 0,
+    numB: null,
+}
 
 const operators = {
     add: function(a, b){return a + b},
@@ -34,11 +39,14 @@ button.forEach(button => {
 function writeDisplay(inp){
     if (inp === '0' && currentNum === 0) return;
     if (!isNaN(inp)){
-        currentNum += inp;
+        if (currentNum === 0 ? currentNum = inp : currentNum += inp)
         display.textContent = currentNum;
     }
     else {
-        return currentOp = inp;
+        expression.op = inp;
+        expression.numA = currentNum;
+        currentNum = 0;
+        display.textContent = currentNum;
     }
 }
 function initiate(){
