@@ -33,9 +33,12 @@ button.forEach(button => {
 })
 function writeDisplay(inp){
     if (inp === '0' && currentNum === 0) return;
-    if (Number(inp) || '0'){
+    if (!isNaN(inp)){
         currentNum += inp;
         display.textContent = currentNum;
+    }
+    else {
+        return currentOp = inp;
     }
 }
 function initiate(){
