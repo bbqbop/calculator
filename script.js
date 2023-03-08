@@ -51,11 +51,11 @@ function writeDisplay(inp){
     // input is an operator after 2nd number
     else { 
         inp = translateOp(inp); 
-        if (isNaN(lastInp) && inp != '='){
+        if (isOperator(lastInp) && isOperator(inp) || isOperator(lastInp) && inp === '=') {
             return;
-        }
+            } 
         if (lastInp === '=' && inp === '='){
-            expression.operator = lastOperator;
+            expression.operator = lastOperator;    
         } else { 
             expression.numB = Number(currentNum);
         }
@@ -97,4 +97,8 @@ function clear(){
 function operate(ex){
     lastOperator = ex.operator;
     return operators[ex.operator](ex.numA, ex.numB)
+}
+
+function isOperator(inp){
+    return isNaN(inp) && inp !== '=';
 }
