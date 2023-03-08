@@ -8,6 +8,16 @@ document.addEventListener('keyup', (e) => {
        if(e.key === 'Escape' && button.innerHTML === 'AC'){
         button.click()
        }
+    if (currentNum !== 0 && e.key === 'Backspace' && !isNaN(lastInp)){
+        // remove last digit
+        currentNum = currentNum.toString().split('').slice(0,-1).join('');
+        display.textContent = currentNum;
+        if (currentNum.toString().length === 0){
+            currentNum = 0;
+            display.textContent = currentNum;
+        }
+        return;
+    }
     }
 })
 let currentNum = 0;
@@ -37,8 +47,14 @@ function writeDisplay(inp){
         clear();
         return;
     }
+    if (inp === ".") {
+        currentNum += inp;
+        display.textContent = currentNum;
+        return;
+    }
     if (inp === '0' && currentNum === 0) return;
     
+    // input is Number
     if (!isNaN(inp)){
         if (isOperator(lastInp)) currentNum = 0;
         if (currentNum === 0 || currentNum === expression.numA 
