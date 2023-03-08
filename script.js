@@ -1,25 +1,3 @@
-const display = document.querySelector('#display')
-const buttons = document.querySelectorAll('button');
-document.addEventListener('keyup', (e) => {
-    for (button of buttons){
-       if(e.key === button.innerHTML){
-        button.click()
-       } 
-       if(e.key === 'Escape' && button.innerHTML === 'AC'){
-        button.click()
-       }
-    if (currentNum !== 0 && e.key === 'Backspace' && !isNaN(lastInp)){
-        // remove last digit
-        currentNum = currentNum.toString().split('').slice(0,-1).join('');
-        display.textContent = currentNum;
-        if (currentNum.toString().length === 0){
-            currentNum = 0;
-            display.textContent = currentNum;
-        }
-        return;
-    }
-    }
-})
 let currentNum = 0;
 let lastInp;
 let abSwitch = true;
@@ -36,10 +14,33 @@ const operators = {
     divide: function(a, b) {return a / b},
 }
 
-buttons.forEach(button => {
+const display = document.querySelector('#display')
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => { // mouse controls
     button.addEventListener('click', (event) => {
         writeDisplay(event.target.innerText);
     })
+})
+document.addEventListener('keyup', (e) => { // keyboard controls
+    for (button of buttons){
+       if(e.key === button.innerHTML){
+        button.click()
+       } 
+       if(e.key === 'Escape' && button.innerHTML === 'AC'){
+        button.click()
+       }
+    if (currentNum !== 0 && e.key === 'Backspace' && !isNaN(lastInp)){
+        // remove last digit
+        currentNum = currentNum.toString().split('').slice(0,-1).join('');
+        update();
+        // never leave screen empty
+        if (currentNum.toString().length === 0){
+            currentNum = 0;
+            update();
+        }
+        return;
+    }
+    }
 })
 
 function writeDisplay(inp){
@@ -49,7 +50,7 @@ function writeDisplay(inp){
     }
     if (inp === ".") {
         currentNum += inp;
-        display.textContent = currentNum;
+        update()
         return;
     }
     if (inp === '0' && currentNum === 0) return;
@@ -59,7 +60,7 @@ function writeDisplay(inp){
         if (isOperator(lastInp)) currentNum = 0;
         if (currentNum === 0 || currentNum === expression.numA 
             ? currentNum = inp : currentNum += inp)
-        display.textContent = currentNum;
+        update()
         lastInp = inp;
         return;
     }
@@ -92,13 +93,16 @@ function writeDisplay(inp){
             return;
         }
         currentNum = operate(expression);
-        display.textContent = currentNum;
+        update();
         expression.operator = inp;
         expression.numA = currentNum;
         lastInp = inp;
     }
 }
-
+function operate(ex){
+    lastOperator = ex.operator;
+    return operators[ex.operator](ex.numA, ex.numB)
+}
 function translateOp (op){
     switch(op){
         case ('+'): return 'add';
@@ -112,22 +116,17 @@ function translateOp (op){
         case ('='): return op;
     }
 }
-
 function clear(){
     expression.operator = null;
     expression.numA = null;
     expression.numB = null;
     currentNum = 0;
-    display.textContent = currentNum;
+    update();
     abSwitch = true;
 }
-
-function operate(ex){
-    console.log(ex)
-    lastOperator = ex.operator;
-    return operators[ex.operator](ex.numA, ex.numB)
-}
-
 function isOperator(inp){
     return isNaN(inp) && inp !== '=';
+}
+function update(){
+    display.textContent = currentNum;
 }
