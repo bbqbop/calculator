@@ -42,8 +42,10 @@ function assignInput(inp){
         return;
     }
     if (inp === ".") {
+        if (isNaN(lastInp)) return;
         currentNum += inp;
         update()
+        lastInp = inp;
         return;
     }
     if (inp === '0' && currentNum === 0) return;
@@ -83,7 +85,7 @@ function clear(){
     abSwitch = true;
 }
 function isOperator(inp){
-    return isNaN(inp) && inp !== '=';
+    return isNaN(inp) && inp !== '=' && inp !== '.';
 }
 function update(){
     display.textContent = currentNum;

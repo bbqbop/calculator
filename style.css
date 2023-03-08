@@ -1,0 +1,30 @@
+body {
+    box-sizing: border-box;
+    font-size: 0px;
+}
+
+.body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    text-decoration: none;
+    font-size: 24px;
+    width: 60px;
+    height: 40px;
+}
+
+button#null {
+    width: 120px;
+}
+
+.container {
+    height: 160px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
