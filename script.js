@@ -1,5 +1,15 @@
 const display = document.querySelector('#display')
-const button = document.querySelectorAll('button');
+const buttons = document.querySelectorAll('button');
+document.addEventListener('keyup', (e) => {
+    for (button of buttons){
+       if(e.key === button.innerHTML){
+        button.click()
+       } 
+       if(e.key === 'Escape' && button.innerHTML === 'AC'){
+        button.click()
+       }
+    }
+})
 let currentNum = 0;
 let lastInp;
 let abSwitch = true;
@@ -16,7 +26,7 @@ const operators = {
     divide: function(a, b) {return a / b},
 }
 
-button.forEach(button => {
+buttons.forEach(button => {
     button.addEventListener('click', (event) => {
         writeDisplay(event.target.innerText);
     })
@@ -95,6 +105,7 @@ function clear(){
 }
 
 function operate(ex){
+    console.log(ex)
     lastOperator = ex.operator;
     return operators[ex.operator](ex.numA, ex.numB)
 }
