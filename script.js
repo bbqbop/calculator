@@ -49,7 +49,17 @@ function assignInput(inp){
         return;
     }
     if (inp === '0' && currentNum === 0) return;
-    
+    if (inp === '%') {
+        currentNum = currentNum / 100;
+        update();
+        return;
+    }
+    if (inp === '+/-'){
+        currentNum = -currentNum;
+        update();
+        return;
+    }
+
     if (!isNaN(inp)){ 
         process.isNumber(inp);
         return;

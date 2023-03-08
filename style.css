@@ -28,3 +28,7 @@ button#null {
     flex-wrap: wrap;
 
 }
+
+#display {
+    font-size: 34px;
+}
