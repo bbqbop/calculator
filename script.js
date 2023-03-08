@@ -40,14 +40,15 @@ function writeDisplay(inp){
     if (inp === '0' && currentNum === 0) return;
     
     if (!isNaN(inp)){
-        currentNum = 0;
-        if (currentNum === 0 || currentNum === expression.numA ? currentNum = inp : currentNum += inp)
+        if (isOperator(lastInp)) currentNum = 0;
+        if (currentNum === 0 || currentNum === expression.numA 
+            ? currentNum = inp : currentNum += inp)
         display.textContent = currentNum;
         lastInp = inp;
         return;
     }
     // input is an operator after 1st number
-    if (abSwitch){  
+    if (abSwitch || lastInp === '=' && isOperator(inp)){  
         if (inp === '=') return;
         else {
             inp = translateOp(inp);
@@ -61,7 +62,8 @@ function writeDisplay(inp){
     // input is an operator after 2nd number
     else { 
         inp = translateOp(inp); 
-        if (isOperator(lastInp) && isOperator(inp) || isOperator(lastInp) && inp === '=') {
+        if (isOperator(lastInp) && isOperator(inp) || 
+            isOperator(lastInp) && inp === '=') {
             return;
             } 
         if (lastInp === '=' && inp === '='){
