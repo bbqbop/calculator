@@ -1,56 +1,100 @@
-const num0 = document.querySelector('#null');
-const num1 = document.querySelector('#num1');
-const num2 = document.querySelector('#num2');
-const num3 = document.querySelector('#num3');
-const num4 = document.querySelector('#num4');
-const num5 = document.querySelector('#num5');
-const num6 = document.querySelector('#num6');
-const num7 = document.querySelector('#num7');
-const num8 = document.querySelector('#num8');
-const num9 = document.querySelector('#num9');
-const add = document.querySelector('#add')
-const subtract = document.querySelector('#subtract');
-const multiply = document.querySelector('#multiply');
-const divide = document.querySelector('#divide');
-const clear = document.querySelector('#clear');
 const display = document.querySelector('#display')
 const button = document.querySelectorAll('button');
 let currentNum = 0;
+let lastInp;
+let abSwitch = true;
+let lastOperator;
 const expression = {
-    op: null,
-    numA: 0,
+    operator: null,
+    numA: null,
     numB: null,
 }
-
 const operators = {
     add: function(a, b){return a + b},
-    subtract: function(a,b) {return a - b},
-    multiply: function(a,b) {return a * b},
-    divide: function(a,b) {return a / b},
+    subtract: function(a, b) {return a - b},
+    multiply: function(a, b) {return a * b},
+    divide: function(a, b) {return a / b},
 }
-function operate(op, a, b){
-    return operators[op](a, b);
-}
+
 button.forEach(button => {
     button.addEventListener('click', (event) => {
         writeDisplay(event.target.innerText);
     })
 })
+
 function writeDisplay(inp){
+    if (inp === 'AC'){
+        clear();
+        return;
+    }
     if (inp === '0' && currentNum === 0) return;
+    
     if (!isNaN(inp)){
-        if (currentNum === 0 ? currentNum = inp : currentNum += inp)
-        display.textContent = currentNum;
-    }
-    else {
-        expression.op = inp;
-        expression.numA = currentNum;
         currentNum = 0;
+        if (currentNum === 0 || currentNum === expression.numA ? currentNum = inp : currentNum += inp)
         display.textContent = currentNum;
+        lastInp = inp;
+        return;
     }
-}
-function initiate(){
-    writeDisplay(0)
+    // input is an operator after 1st number
+    if (abSwitch){  
+        if (inp === '=') return;
+        else {
+            inp = translateOp(inp);
+            expression.operator = inp;
+            expression.numA = Number(currentNum);
+            abSwitch = false;
+            lastInp = inp;
+            return;
+        }
+    }
+    // input is an operator after 2nd number
+    else { 
+        inp = translateOp(inp); 
+        if (isNaN(lastInp) && inp != '='){
+            return;
+        }
+        if (lastInp === '=' && inp === '='){
+            expression.operator = lastOperator;
+        } else { 
+            expression.numB = Number(currentNum);
+        }
+        if (expression.operator === 'divide' && expression.numB === 0){
+            display.textContent = 'Nice Try!';
+            return;
+        }
+        currentNum = operate(expression);
+        display.textContent = currentNum;
+        expression.operator = inp;
+        expression.numA = currentNum;
+        lastInp = inp;
+    }
 }
 
-writeDisplay(currentNum);
+function translateOp (op){
+    switch(op){
+        case ('+'): return 'add';
+            break;
+        case ('-'): return'subtract';
+            break;
+        case ('*'): return 'multiply';
+            break;
+        case ('/'): return 'divide';
+            break;
+        case ('='): return op;
+    }
+}
+
+function clear(){
+    expression.operator = null;
+    expression.numA = null;
+    expression.numB = null;
+    currentNum = 0;
+    display.textContent = currentNum;
+    abSwitch = true;
+}
+
+function operate(ex){
+    lastOperator = ex.operator;
+    return operators[ex.operator](ex.numA, ex.numB)
+}
