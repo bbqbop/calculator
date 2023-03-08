@@ -7,18 +7,11 @@ const expression = {
     numA: null,
     numB: null,
 }
-const operators = {
-    add: function(a, b){return a + b},
-    subtract: function(a, b) {return a - b},
-    multiply: function(a, b) {return a * b},
-    divide: function(a, b) {return a / b},
-}
-
 const display = document.querySelector('#display')
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => { // mouse controls
     button.addEventListener('click', (event) => {
-        writeDisplay(event.target.innerText);
+        assignInput(event.target.innerText);
     })
 })
 document.addEventListener('keyup', (e) => { // keyboard controls
@@ -43,7 +36,7 @@ document.addEventListener('keyup', (e) => { // keyboard controls
     }
 })
 
-function writeDisplay(inp){
+function assignInput(inp){
     if (inp === 'AC'){
         clear();
         return;
@@ -55,51 +48,16 @@ function writeDisplay(inp){
     }
     if (inp === '0' && currentNum === 0) return;
     
-    // input is Number
-    if (!isNaN(inp)){
-        if (isOperator(lastInp)) currentNum = 0;
-        if (currentNum === 0 || currentNum === expression.numA 
-            ? currentNum = inp : currentNum += inp)
-        update()
-        lastInp = inp;
+    if (!isNaN(inp)){ 
+        process.isNumber(inp);
         return;
     }
-    // input is an operator after 1st number
     if (abSwitch || lastInp === '=' && isOperator(inp)){  
-        if (inp === '=') return;
-        else {
-            inp = translateOp(inp);
-            expression.operator = inp;
-            expression.numA = Number(currentNum);
-            abSwitch = false;
-            lastInp = inp;
-            return;
-        }
-    }
-    // input is an operator after 2nd number
-    else { 
-        inp = translateOp(inp); 
-        if (isOperator(lastInp) && isOperator(inp) || 
-            isOperator(lastInp) && inp === '=') {
-            return;
-            } 
-        if (lastInp === '=' && inp === '='){
-            expression.operator = lastOperator;    
-        } else { 
-            expression.numB = Number(currentNum);
-        }
-        if (expression.operator === 'divide' && expression.numB === 0){
-            display.textContent = 'Nice Try!';
-            return;
-        }
-        currentNum = operate(expression);
-        update();
-        expression.operator = inp;
-        expression.numA = currentNum;
-        lastInp = inp;
-    }
+        process.isFirstOperator(inp);
+        return;
+    } else process.isSecondOperator(inp)
 }
-function operate(ex){
+function compute(ex){
     lastOperator = ex.operator;
     return operators[ex.operator](ex.numA, ex.numB)
 }
@@ -129,4 +87,48 @@ function isOperator(inp){
 }
 function update(){
     display.textContent = currentNum;
+}
+const process = {
+    isNumber : function(inp){
+        if (isOperator(lastInp)) currentNum = 0;
+        if (currentNum === 0 || currentNum === expression.numA 
+            ? currentNum = inp : currentNum += inp)
+        update()
+        lastInp = inp;},
+    isFirstOperator : function(inp){
+        if (inp === '=') return;
+        else {
+            inp = translateOp(inp);
+            expression.operator = inp;
+            expression.numA = Number(currentNum);
+            abSwitch = false;
+            lastInp = inp;
+        }},
+    isSecondOperator : function(inp){
+        inp = translateOp(inp); 
+        if (isOperator(lastInp) && isOperator(inp) || 
+            isOperator(lastInp) && inp === '=') {
+            return;
+            } 
+        if (lastInp === '=' && inp === '='){
+            expression.operator = lastOperator;    
+        } else { 
+            expression.numB = Number(currentNum);
+        }
+        if (expression.operator === 'divide' && expression.numB === 0){
+            display.textContent = 'Nice Try!';
+            return;
+        }
+        currentNum = compute(expression);
+        update();
+        expression.operator = inp;
+        expression.numA = currentNum;
+        lastInp = inp;
+    }
+}
+const operators = {
+    add: function(a, b){return a + b},
+    subtract: function(a, b) {return a - b},
+    multiply: function(a, b) {return a * b},
+    divide: function(a, b) {return a / b},
 }
