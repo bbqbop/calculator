@@ -22,11 +22,27 @@ button#null {
 }
 
 .container {
-    height: 160px;
+    height: 200px;
+    width: 240px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+}
 
+.container.container_left {
+    flex:2;
+    flex-direction: column;
+}
+
+.operators_2 {
+    display: flex;
+}
+
+.digits {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.operators_1 {
+    flex: 1;
 }
 
 #display {
