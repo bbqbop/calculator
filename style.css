@@ -25,6 +25,7 @@ button {
     border-color:rgb(62, 62, 61);
     box-shadow: 1px 2px 5px;
     outline : 0;
+    transition: opacity 350ms;
 }
 
 button:hover {
@@ -93,7 +94,7 @@ button#null {
     border: solid black 1px;
     font-family: 'Orbitron', sans-serif;    
     font-size: 34px;
-    text-align: center;
+    text-align:center;
     color :antiquewhite;
     background-color:rgb(62, 62, 61);
     box-shadow: inset 1px 1px 1px black;

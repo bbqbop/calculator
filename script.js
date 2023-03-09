@@ -1,4 +1,4 @@
-let currentNum = 0;
+let currentNum
 let lastInp;
 let abSwitch = true;
 let lastOperator;
@@ -17,7 +17,6 @@ buttons.forEach(button => { // mouse controls
 document.addEventListener('keydown', (e) => { // keyboard controls
     for (button of buttons) {
         if (e.key === button.innerHTML){
-            console.log(button)
             button.classList.add('active');
         }
         if(e.key === 'Escape' && button.innerHTML === 'AC'){
@@ -30,8 +29,6 @@ document.addEventListener('keyup', (e) => {
        if(e.key === button.innerHTML){
         button.click();
         button.classList.remove('active');
-        console.log(button)
-
        } 
        if(e.key === 'Escape' && button.innerHTML === 'AC'){
         button.click()
@@ -59,7 +56,7 @@ function assignInput(inp){
         if (isNaN(lastInp)) return;
         if (currentNum.toString().indexOf('.') !== -1) return;
         currentNum += inp;
-        adjustDisplay();
+        adjustFontSize();
         update()
         lastInp = inp;
         return;
@@ -113,10 +110,10 @@ function clear(){
 function isOperator(inp){
     return isNaN(inp) && inp !== '=' && inp !== '.';
 }
-function update(){
+function update(time = 30){
     display.textContent = '';
-    adjustDisplay();
-    setTimeout(() => display.textContent = currentNum, 30);
+    adjustFontSize();
+    setTimeout(() => display.textContent = currentNum, time);
 }
 const process = {
     isNumber : function(inp){
@@ -150,7 +147,7 @@ const process = {
             return;
         }
         currentNum = compute(expression);
-        adjustDisplay();
+        adjustFontSize();
         update();
         expression.operator = inp;
         expression.numA = currentNum;
@@ -166,7 +163,7 @@ const operators = {
 function shortenNum (idx) {
     currentNum = currentNum.toString().split('').slice(0,idx).join('');
 }
-function adjustDisplay() {
+function adjustFontSize() {
     let len = currentNum.toString().length;
     switch(true){
         case (len === 1): 
@@ -180,3 +177,15 @@ function adjustDisplay() {
             break;     
     }
 }
+function welcome() {
+    let welcome = 'Welcome!';
+    currentNum = '';
+    for (let i = 0; i < welcome.length; i++){
+        setTimeout (() => {
+            currentNum += welcome[i];
+            update()
+        }, i*300)
+    }
+}
+
+welcome()
