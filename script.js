@@ -14,15 +14,18 @@ buttons.forEach(button => { // mouse controls
         assignInput(event.target.innerText);
     })
 })
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', (e) => { // keyboard controls
     for (button of buttons) {
         if (e.key === button.innerHTML){
             console.log(button)
             button.classList.add('active');
         }
+        if(e.key === 'Escape' && button.innerHTML === 'AC'){
+            button.classList.add('active');
+           }
     }
 })
-document.addEventListener('keyup', (e) => { // keyboard controls
+document.addEventListener('keyup', (e) => { 
     for (button of buttons){
        if(e.key === button.innerHTML){
         button.click();
@@ -32,6 +35,7 @@ document.addEventListener('keyup', (e) => { // keyboard controls
        } 
        if(e.key === 'Escape' && button.innerHTML === 'AC'){
         button.click()
+        button.classList.remove('active');
        }
     if (currentNum !== 0 && e.key === 'Backspace' && !isNaN(lastInp)){
         shortenNum(-1);
@@ -110,8 +114,9 @@ function isOperator(inp){
     return isNaN(inp) && inp !== '=' && inp !== '.';
 }
 function update(){
+    display.textContent = '';
     adjustDisplay();
-    display.textContent = currentNum;
+    setTimeout(() => display.textContent = currentNum, 30);
 }
 const process = {
     isNumber : function(inp){

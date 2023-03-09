@@ -15,24 +15,29 @@ body {
 
 button {
     font-size: 24px;
+    color: rgb(62, 62, 61);
     width: 60px;
     height: 40px;
-    border-width: 4px;
+    border-width: 3px;
     border-style: outset;
     border-radius: 2px;
     border-color:rgb(62, 62, 61);
     opacity: 40px;
+    box-shadow: 1px 2px 5px;
+    outline : 0;
 }
 
 button:active{
     border-style: inset;
     opacity: 90%;
     font-size: 23px;
+    box-shadow: inset 1px 2px 5px;
 }
 .active{
     border-style: inset;
     opacity: 90%;
     font-size: 23px;
+    box-shadow: inset 1px 2px 5px;
 }
 
 button#null {
@@ -45,6 +50,7 @@ button#null {
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    box-shadow: 1px 2px 5px;
 }
 
 .container {
