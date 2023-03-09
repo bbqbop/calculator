@@ -23,8 +23,7 @@ document.addEventListener('keyup', (e) => { // keyboard controls
         button.click()
        }
     if (currentNum !== 0 && e.key === 'Backspace' && !isNaN(lastInp)){
-        // remove last digit
-        currentNum = currentNum.toString().split('').slice(0,-1).join('');
+        shortenNum(-1);
         update();
         // never leave screen empty
         if (currentNum.toString().length === 0){
@@ -45,6 +44,7 @@ function assignInput(inp){
         if (isNaN(lastInp)) return;
         if (currentNum.toString().indexOf('.') !== -1) return;
         currentNum += inp;
+        adjustDisplay();
         update()
         lastInp = inp;
         return;
@@ -99,6 +99,7 @@ function isOperator(inp){
     return isNaN(inp) && inp !== '=' && inp !== '.';
 }
 function update(){
+    adjustDisplay();
     display.textContent = currentNum;
 }
 const process = {
@@ -133,6 +134,7 @@ const process = {
             return;
         }
         currentNum = compute(expression);
+        adjustDisplay();
         update();
         expression.operator = inp;
         expression.numA = currentNum;
@@ -144,4 +146,24 @@ const operators = {
     subtract: function(a, b) {return a - b},
     multiply: function(a, b) {return a * b},
     divide: function(a, b) {return a / b},
+}
+function shortenNum (idx) {
+    currentNum = currentNum.toString().split('').slice(0,idx).join('');
+}
+function adjustDisplay() {
+    let len = currentNum.toString().length;
+    switch(true){
+        case (len === 1): 
+            display.style.fontSize = '34px';
+            break;
+        // case (len >= 20):
+        //     shortenNum(19)
+        //     break;
+        case (len >= 12):
+            display.style.fontSize = '14px';
+            break;
+        case (len >= 8):
+            display.style.fontSize = '24px';
+            break;     
+    }
 }
