@@ -43,6 +43,7 @@ function assignInput(inp){
     }
     if (inp === ".") {
         if (isNaN(lastInp)) return;
+        if (currentNum.toString().indexOf('.') !== -1) return;
         currentNum += inp;
         update()
         lastInp = inp;

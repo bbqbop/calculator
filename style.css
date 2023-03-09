@@ -22,6 +22,14 @@ button#null {
     width: 120px;
 }
 
+.calculator {
+    padding: 5px;
+    background-color: bisque;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
 .container {
     height: 200px;
     width: 240px;
@@ -29,7 +37,6 @@ button#null {
 }
 
 .container.container_left {
-    flex:2;
     flex-direction: column;
 }
 
@@ -37,15 +44,27 @@ button#null {
     display: flex;
 }
 
+.operators_2 * {
+    background-color: lightslategray;
+}
+
 .digits {
     display: flex;
     flex-wrap: wrap;
 }
 
-.operators_1 {
-    flex: 1;
+.operators_1 * {
+    background-color: lightsalmon;
 }
 
 #display {
+    box-sizing: border-box;
+    overflow: none;
+    border-radius: 2px;
+    width: 240px;
+    border: solid black 1px;
+    text-align: center;
     font-size: 34px;
+    color :antiquewhite;
+    background-color:rgb(62, 62, 61);
 }
