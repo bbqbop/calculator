@@ -15,6 +15,7 @@ body {
 
 button {
     font-size: 24px;
+    font-family:monospace;
     color: rgb(62, 62, 61);
     width: 60px;
     height: 40px;
@@ -22,12 +23,15 @@ button {
     border-style: outset;
     border-radius: 2px;
     border-color:rgb(62, 62, 61);
-    opacity: 40px;
     box-shadow: 1px 2px 5px;
     outline : 0;
 }
 
-button:active{
+button:hover {
+    opacity: 80%;
+}
+
+button:active {
     border-style: inset;
     opacity: 90%;
     font-size: 23px;
@@ -92,4 +96,5 @@ button#null {
     text-align: center;
     color :antiquewhite;
     background-color:rgb(62, 62, 61);
+    box-shadow: inset 1px 1px 1px black;
 }
