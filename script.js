@@ -14,10 +14,21 @@ buttons.forEach(button => { // mouse controls
         assignInput(event.target.innerText);
     })
 })
+document.addEventListener('keydown', (e) => {
+    for (button of buttons) {
+        if (e.key === button.innerHTML){
+            console.log(button)
+            button.classList.add('active');
+        }
+    }
+})
 document.addEventListener('keyup', (e) => { // keyboard controls
     for (button of buttons){
        if(e.key === button.innerHTML){
-        button.click()
+        button.click();
+        button.classList.remove('active');
+        console.log(button)
+
        } 
        if(e.key === 'Escape' && button.innerHTML === 'AC'){
         button.click()
@@ -156,9 +167,6 @@ function adjustDisplay() {
         case (len === 1): 
             display.style.fontSize = '34px';
             break;
-        // case (len >= 20):
-        //     shortenNum(19)
-        //     break;
         case (len >= 12):
             display.style.fontSize = '14px';
             break;
