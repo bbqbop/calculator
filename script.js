@@ -143,7 +143,7 @@ const process = {
             expression.numB = Number(currentNum);
         }
         if (expression.operator === 'divide' && expression.numB === 0){
-            display.textContent = 'Nice Try!';
+            typeAnimation('Nice Try!');
             return;
         }
         currentNum = compute(expression);
@@ -177,15 +177,29 @@ function adjustFontSize() {
             break;     
     }
 }
-function welcome() {
-    let welcome = 'Welcome!';
+function typeAnimation(string) {
     currentNum = '';
-    for (let i = 0; i < welcome.length; i++){
+    for (let i = 0; i < string.length; i++){
         setTimeout (() => {
-            currentNum += welcome[i];
+            currentNum += string[i];
             update()
         }, i*300)
     }
+    let arr;
+    setTimeout(()=>{
+    for (let j = 0; j <= string.length; j++){
+        setTimeout (() => {
+            if (j === string.length){
+                clear();
+                return;
+            }
+            arr = currentNum.split('');
+            arr[j] = ' ';
+            currentNum = arr.join('');
+            update(0)
+        }, j*100)
+    }
+}, (string.length * 300 + 1000))
 }
 
-welcome()
+typeAnimation('Welcome!')
